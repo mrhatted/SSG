@@ -1,5 +1,6 @@
 from textnode import *
 from htmlnode import *
+from splitdelimeter import *
 
 print ("hello world")
 
@@ -18,11 +19,20 @@ def main():
         LeafNode(None, "Normal text"),
     ],
 )
-    print (node)
-    print(node.to_html())
+    #print (node)
+    #print(node.to_html())
     grandchild_node = LeafNode("b", "grandchild")
     child_node = ParentNode("span", [grandchild_node])
     parent_node = ParentNode("div", [child_node])
-    print (parent_node.to_html())
+    #print (parent_node.to_html())
+    node = TextNode("This is text with a `code block` word", TextType.text)
+    node2 = TextNode("This some text with a **bold words** wordings", TextType.text)
+    #print (node)
+    #print(f"result of split delimeter={split_nodes_delimeter([node], "`", TextType.code)}")
+    #print(f"result of split delimeter={split_nodes_delimeter([node2], "**", TextType.bold)}")
+    text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+    print(extract_markdown_images(text))
+    text2 = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+    print(extract_markdown_links(text2))
 
 main()
