@@ -36,7 +36,7 @@ def main():
     #print(extract_markdown_links(text2))
     node3 = TextNode("This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",TextType.text)
     print(f"splitlink = {split_nodes_link([node3])}")
-    node4 = TextNode("This is text with a link ![to boot dev](https://www.boot.dev) and ![to youtube](https://www.youtube.com/@bootdotdev)",TextType.text)
+    node4 = TextNode("This is text with a link ![to boot dev](https://www.boot.dev) and ![to youtube](https://www.youtube.com/@bootdotdev) and yadayada",TextType.text)
     print(f"splitimg = {split_nodes_image([node4])}")
-
+    print(text_to_textnodes("This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"))
 main()
