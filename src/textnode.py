@@ -33,7 +33,7 @@ class TextNode:
             case TextType.italic:
                 return LeafNode("i",text_node.text)
             case TextType.code:
-                return LeafNode('```',text_node.text)
+                return LeafNode('code',text_node.text)
             case TextType.link:
                 return LeafNode("a",text_node.text,{"href":text_node.url})
             case TextType.image:
