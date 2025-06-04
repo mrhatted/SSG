@@ -137,3 +137,21 @@ def markdown_to_html_node(markdown):
    
     return ParentNode("div",list_of_htmlnodes)
     
+def extract_title(markdown):
+    blocks = markdown_to_blocks(markdown)
+    
+    for block in blocks:
+        
+        if block_to_block_type(block) == BlockType.heading:
+            titleblock = block.strip()
+            if block [1] != "#":
+                
+                
+                return block[1:].strip()
+     
+
+
+
+
+
+    
