@@ -90,7 +90,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 def grab_basepath():
     # Check if an argument was provided
     global basepath
-    if len(sys.argv[0]) == 0:
+    if len(sys.argv) <= 1:
         basepath = "/"       
     else:
         basepath = sys.argv[1]       
@@ -105,14 +105,14 @@ def grab_basepath():
 def main():
     print ("hello world")
     #print (fun_vr_debug("./content/index.md","template.html"))
-    basepath = grab_basepath()
+    basepath = "/SSG/"
     
     
     
-    #shutil.rmtree("{basepath}docs",ignore_errors=True)
-    copy_src_to_target(f".{basepath}static",f".{basepath}docs")
+    shutil.rmtree("d{basepath}ocs",ignore_errors=True)
+    copy_src_to_target(f"./static",f".{basepath}docs")
     #generate_page(f".{basepath}content/index.md", f".{basepath}template.html", f".{basepath}docs/index.html")
-    generate_pages_recursive(f".{basepath}content",f".{basepath}template.html",f".{basepath}docs")
+    generate_pages_recursive(f"./content",f"./template.html",f".{basepath}docs")
     
     
 main()
