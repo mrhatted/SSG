@@ -63,7 +63,7 @@ def change_filename_to_html(dest_dir):
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
     
-    htmlname = dest_dir_path[:-2]+"html"
+    print (f"function called with:{dir_path_content,template_path,dest_dir_path}")
     if os.path.isfile(dir_path_content):
         
         if os.path.isfile(dest_dir_path):
