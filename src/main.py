@@ -105,15 +105,15 @@ def grab_basepath():
 def main():
     print ("hello world")
     #print (fun_vr_debug("./content/index.md","template.html"))
-    global basepath
-    basepath = ""
+    
+    basepath = grab_basepath()
     
     
     
     shutil.rmtree("docs",ignore_errors=True)
-    copy_src_to_target(f"./static",f"docs{basepath}")
+    copy_src_to_target(f"./static",f"./docs")
     #generate_page(f".{basepath}content/index.md", f".{basepath}template.html", f".{basepath}docs/index.html")
-    generate_pages_recursive(f"./content",f"./template.html",f"docs{basepath}")
+    generate_pages_recursive(f"./content",f"./template.html",f"./docs")
     
     
 main()
