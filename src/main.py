@@ -30,8 +30,60 @@ def copy_src_to_target(src,target):
         directories = os.listdir(src)      
         for directory in directories:
             copy_src_to_target(f"{src}/{directory}",f"{target}/{directory}")
-                         
+
+def generate_page(from_path, template_path, dest_path):
+    print (f"Generating page from {from_path} to {dest_path} using {template_path}")
+    markdown = open(from_path,"r").read()
+    template = open(template_path,"r").read()
+    html_string = markdown_to_html_node(markdown).to_html()
+    
+    title = extract_title(markdown)
+    filled_in_template = template.replace("{{ Title }}",title).replace("{{ Content }}",html_string)
+    if not (os.path.exists(os.path.dirname(dest_path))):
         
+        os.mkdir(os.path.dirname(dest_path))
+    with open(dest_path,"w") as f:
+        f.write(filled_in_template)
+
+def fun_vr_debug(from_path, template_path):
+    markdown = open(from_path,"r").read()
+    template = open(template_path,"r").read()
+    html_string = markdown_to_html_node(markdown).to_html()
+    
+    title = extract_title(markdown)
+    filled_in_template = template.replace("{{ Title }}",title).replace("{{ Content }}",html_string)
+    return filled_in_template
+
+def change_filename_to_html(dest_dir):
+    
+    return ".".join(dest_dir.split(".")[:-1])+".html"
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    
+    htmlname = dest_dir_path[:-2]+"html"
+    if os.path.isfile(dir_path_content):
+        
+        if os.path.isfile(dest_dir_path):
+            
+            return
+        else:
+            
+            generate_page(dir_path_content, template_path, change_filename_to_html(dest_dir_path))
+        
+        
+    else: 
+        
+        if  not os.path.isdir(dest_dir_path):
+           
+            os.mkdir(dest_dir_path)
+            
+        
+            
+        directories = os.listdir(dir_path_content)      
+        for directory in directories:
+            generate_pages_recursive(f"{dir_path_content}/{directory}", template_path,f"{dest_dir_path}/{directory}")
+                         
+      
             
                 
         
@@ -45,6 +97,9 @@ def copy_src_to_target(src,target):
 
 def main():
     print ("hello world")
+    #print (fun_vr_debug("./content/index.md","template.html"))
+    shutil.rmtree("./public",ignore_errors=True)
     copy_src_to_target("./static","./public")
-    
+    #generate_page("./content/index.md", "./template.html", "./public/index.html")
+    generate_pages_recursive("./content","template.html","./public")
 main()

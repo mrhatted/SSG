@@ -76,6 +76,9 @@ def split_nodes_link(old_nodes):
                 return list_to_return
             else:
                 list_to_return.extend(split_nodes_link([TextNode(list_of_text[1],old_nodes[i].text_type)]))
+        elif old_nodes[i].text_type == TextType.image:
+            #print ("img found")
+            list_to_return.append(old_nodes[i])
         else:
             list_to_return.append(TextNode(old_nodes[i].text,TextType.text))
 
@@ -86,10 +89,11 @@ def text_to_textnodes(text):
     
     list_to_return = []
     list_to_return.extend(split_nodes_image([TextNode(text,TextType.text)]))
-    
+    #print (f"list_to_return = {list_to_return}")
     list_to_return = split_nodes_link(list_to_return)
-    
+    #print (f"list_to_return = {list_to_return}")
     list_to_return = split_nodes_delimeter(list_to_return,'**',TextType.bold)
     list_to_return = split_nodes_delimeter(list_to_return,'_',TextType.italic)
     list_to_return = split_nodes_delimeter(list_to_return,'`',TextType.code)
     return list_to_return
+

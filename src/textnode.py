@@ -37,5 +37,5 @@ class TextNode:
             case TextType.link:
                 return LeafNode("a",text_node.text,{"href":text_node.url})
             case TextType.image:
-                return LeafNode("img",None,{"src":text_node.url,"alt":text_node.text})
+                return LeafNode("img","",{"src":text_node.url,"alt":text_node.text})
             

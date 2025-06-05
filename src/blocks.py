@@ -12,7 +12,8 @@ def markdown_to_blocks(markdown):
         if block == []:
             pass
         else:
-            block_to_add = block.strip("\n").strip()
+            intermediary_block = block.strip("\n")
+            block_to_add = intermediary_block.strip()
             if block_to_add == "":
                 pass
             else:
@@ -53,18 +54,20 @@ def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)
     #print (f"blocks = {blocks}")
     for block in blocks:
+
         
         #print (f"block thats about to get matched = {block}")
         
         #print (f"block to blocktype = {block_to_block_type(block)}")
         match block_to_block_type(block):
             case BlockType.heading:
+
                 i = 0
                 while block[i] == "#":
                     i+=1
                 block = block[i:]
                 tag = f"h{i}"   
-                list_of_textnodes = text_to_textnodes(block)
+                list_of_textnodes = text_to_textnodes(block.strip())
                 list_to_hold = []
                 for textnode in list_of_textnodes:
                     list_to_hold.append(textnode.text_node_to_html_node())
@@ -79,10 +82,18 @@ def markdown_to_html_node(markdown):
                 #print (f"leafnode about to add = {LeafNode("```",block,None,None)}")
                 list_of_htmlnodes.append(ParentNode("pre",[LeafNode("code",block,None)]))
             case BlockType.quote:
-                list_of_textnodes = text_to_textnodes(block)
+                splitted_block = block.split(">")
+                splitted_block = splitted_block[1:]
                 list_to_hold = []
-                for textnode in list_of_textnodes:
-                    list_to_hold.append(textnode.text_node_to_html_node())
+                #print (f"splitted block is{splitted_block}")
+                for splitted_block_item in splitted_block:
+                    
+                
+                    list_of_textnodes = text_to_textnodes(splitted_block_item.strip())
+                    
+                    for textnode in list_of_textnodes:
+                        list_to_hold.append(textnode.text_node_to_html_node())
+                #print (f"list to hold in blockquote = {list_to_hold}")
                 block_paragraph = ParentNode("blockquote",list_to_hold)
                 #print (f"block identified as quote = {block}") 
                 #print (f"block paragraph = {block_paragraph}")
@@ -90,11 +101,13 @@ def markdown_to_html_node(markdown):
             case BlockType.unordered_list:
                 #print (f"block identified as unordered list = {block}")
                 list_listitems = block.split("\n- ")
+                list_listitems[0] = list_listitems[0][1:]
                 #print (f"list listitmes = {list_listitems}")
                 list_of_parentnodes = []
                 list_to_hold = []
+                
                 for listitem in list_listitems:
-                    list_of_textnodes = text_to_textnodes(listitem)
+                    list_of_textnodes = text_to_textnodes(listitem.strip())
                     list_to_hold = []
                     for textnode in list_of_textnodes:
                         list_to_hold.append(textnode.text_node_to_html_node())
@@ -112,7 +125,7 @@ def markdown_to_html_node(markdown):
                 list_of_parentnodes = []
                 list_to_hold = []
                 for listitem in list_listitems:
-                    list_of_textnodes = text_to_textnodes(listitem)
+                    list_of_textnodes = text_to_textnodes(listitem.strip())
                     list_to_hold = []
                     for textnode in list_of_textnodes:
                         list_to_hold.append(textnode.text_node_to_html_node())
@@ -122,8 +135,10 @@ def markdown_to_html_node(markdown):
                 list_of_htmlnodes.append(block_unordered_list)
             case BlockType.paragraph:
                 list_of_textnodes = text_to_textnodes(block)
+                #print (f"list_of_textnodes={list_of_textnodes}")
                 list_to_hold = []
                 for textnode in list_of_textnodes:
+                    #print (f"textnode={textnode}")
                     list_to_hold.append(textnode.text_node_to_html_node())
                 block_paragraph = ParentNode("p",list_to_hold)
                 #print (f"block identified as paragraph = {block}") 
