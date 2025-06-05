@@ -4,6 +4,7 @@ from splitdelimeter import *
 from blocks import *
 import os
 import shutil
+import sys
 
 def copy_src_to_target(src,target):
     #print (f"{public} is bestand? {os.path.isfile(public)}")
@@ -38,7 +39,9 @@ def generate_page(from_path, template_path, dest_path):
     html_string = markdown_to_html_node(markdown).to_html()
     
     title = extract_title(markdown)
-    filled_in_template = template.replace("{{ Title }}",title).replace("{{ Content }}",html_string)
+    unservered_template = template.replace("{{ Title }}",title).replace("{{ Content }}",html_string)
+    templateforserver = unservered_template.replace('href="/',f'href="{basepath}')
+    filled_in_template = templateforserver.replace('src="/',f'src="{basepath}')
     if not (os.path.exists(os.path.dirname(dest_path))):
         
         os.mkdir(os.path.dirname(dest_path))
@@ -82,24 +85,34 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         directories = os.listdir(dir_path_content)      
         for directory in directories:
             generate_pages_recursive(f"{dir_path_content}/{directory}", template_path,f"{dest_dir_path}/{directory}")
-                         
-      
-            
-                
-        
-         
 
 
-                        
+def grab_basepath():
+    # Check if an argument was provided
+    global basepath
+    if len(sys.argv[0]) == 11:
+        basepath = "/"       
+    else:
+        basepath = sys.argv[0][:-11]       
 
-        
+    # Now you can use basepath in your program
+    print(f"Using basepath: {basepath}")
+    
+    return basepath 
+
 
 
 def main():
     print ("hello world")
     #print (fun_vr_debug("./content/index.md","template.html"))
-    shutil.rmtree("./public",ignore_errors=True)
-    copy_src_to_target("./static","./public")
-    #generate_page("./content/index.md", "./template.html", "./public/index.html")
-    generate_pages_recursive("./content","template.html","./public")
+    basepath = grab_basepath()
+    
+    
+    
+    shutil.rmtree("{basepath}docs",ignore_errors=True)
+    copy_src_to_target(f".{basepath}static",f".{basepath}docs")
+    generate_page(f".{basepath}content/index.md", f".{basepath}template.html", f".{basepath}docs/index.html")
+    generate_pages_recursive(f".{basepath}content",f".{basepath}template.html",f".{basepath}docs")
+    
+    
 main()
