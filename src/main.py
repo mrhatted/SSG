@@ -40,8 +40,8 @@ def generate_page(from_path, template_path, dest_path):
     
     title = extract_title(markdown)
     unservered_template = template.replace("{{ Title }}",title).replace("{{ Content }}",html_string)
-    templateforserver = unservered_template.replace('href="/',f'href="{basepath}')
-    filled_in_template = templateforserver.replace('src="/',f'src="{basepath}')
+    templateforserver = unservered_template.replace('href="/',f'href="{basepath}/docs')
+    filled_in_template = templateforserver.replace('src="/',f'src="{basepath}/docs')
     if not (os.path.exists(os.path.dirname(dest_path))):
         
         os.mkdir(os.path.dirname(dest_path))
