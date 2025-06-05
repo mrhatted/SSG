@@ -90,10 +90,10 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 def grab_basepath():
     # Check if an argument was provided
     global basepath
-    if len(sys.argv[0]) == 11:
+    if len(sys.argv[0]) == 0:
         basepath = "/"       
     else:
-        basepath = sys.argv[0][:-11]       
+        basepath = sys.argv[1]       
 
     # Now you can use basepath in your program
     print(f"Using basepath: {basepath}")
