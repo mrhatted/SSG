@@ -110,9 +110,9 @@ def main():
     
     
     shutil.rmtree("d{basepath}ocs",ignore_errors=True)
-    copy_src_to_target(f"./static",f".{basepath}docs")
+    copy_src_to_target(f"./static",f".docs{basepath}")
     #generate_page(f".{basepath}content/index.md", f".{basepath}template.html", f".{basepath}docs/index.html")
-    generate_pages_recursive(f"./content",f"./template.html",f".{basepath}docs")
+    generate_pages_recursive(f"./content",f"./template.html",f".docs{basepath}")
     
     
 main()
