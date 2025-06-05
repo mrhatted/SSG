@@ -40,8 +40,8 @@ def generate_page(from_path, template_path, dest_path):
     
     title = extract_title(markdown)
     unservered_template = template.replace("{{ Title }}",title).replace("{{ Content }}",html_string)
-    templateforserver = unservered_template.replace('href="/',f'href="{basepath}docs/')
-    filled_in_template = templateforserver.replace('src="/',f'src="{basepath}docs/')
+    templateforserver = unservered_template.replace('href="/',f'href="{basepath}/')
+    filled_in_template = templateforserver.replace('src="/',f'src="{basepath}/')
     if not (os.path.exists(os.path.dirname(dest_path))):
         
         os.mkdir(os.path.dirname(dest_path))
@@ -63,7 +63,7 @@ def change_filename_to_html(dest_dir):
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
     
-    print (f"function called with:{dir_path_content,template_path,dest_dir_path}")
+    #print (f"function called with:{dir_path_content,template_path,dest_dir_path}")
     if os.path.isfile(dir_path_content):
         
         if os.path.isfile(dest_dir_path):
@@ -91,7 +91,7 @@ def grab_basepath():
     # Check if an argument was provided
     global basepath
     if len(sys.argv) <= 1:
-        basepath = "/"       
+        basepath = "./"       
     else:
         basepath = sys.argv[1]       
 
@@ -110,7 +110,7 @@ def main():
     
     
     
-    #shutil.rmtree("docs",ignore_errors=True)
+    shutil.rmtree("docs",ignore_errors=True)
     copy_src_to_target(f"./static",f"./docs")
     #generate_page(f".{basepath}content/index.md", f".{basepath}template.html", f".{basepath}docs/index.html")
     generate_pages_recursive(f"./content",f"./template.html",f"./docs")
